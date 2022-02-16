@@ -51,7 +51,7 @@ org = $4c00
 
 *-------------------------------
  lst
- put eq
+ put eqs            ; Merlin32: rename eq.s to eqs.s
  lst
  put gameeq
  lst off
@@ -1001,7 +1001,7 @@ SETUPCOMIX
 
 * Get x-coord
 
-:imp lda #-5 impaled
+:imp lda #-5 ;impaled
  bne :9
 :8 lda #5
 :9 jsr addfcharx

@@ -7,21 +7,22 @@ org = $3000
 *-------------------------------
 * Seq table instructions:
 
-goto = -1
-aboutface = -2
-up = -3
-down = -4
-chx = -5
-chy = -6
-act = -7
-setfall = -8
-ifwtless = -9
-die = -10
-jaru = -11
-jard = -12
-effect = -13
-tap = -14
-nextlevel = -15
+;; Merlin32: Replace negative decimals with hex equiv.
+goto        = $FF     ;-1
+aboutface   = $FF-1   ;-2
+up          = $FF-2   ;-3
+down        = $FF-3   ;-4
+chx         = $FF-4   ;-5
+chy         = $FF-5   ;-6
+act         = $FF-6   ;-7
+setfall     = $FF-7   ;-8
+ifwtless    = $FF-8   ;-9
+die         = $FF-9   ;-10
+jaru        = $FF-10  ;-11
+jard        = $FF-11  ;-12
+effect      = $FF-12  ;-13
+tap         = $FF-13  ;-14
+nextlevel   = $FF-14  ;-15
 
 *-------------------------------
 *

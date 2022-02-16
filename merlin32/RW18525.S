@@ -34,7 +34,8 @@ entry   jmp RW18
 * The next 16 bytes will be saved on RW18 entry
 * and restored on RW18 exit so the game can use
 * them as well.
-zpArea  equ *
+;;zpArea  equ *
+zpArea = $e0        ; Merlin32 needs this value ($e0) to defined explicitly.
 
 * 16-bit pointer to first page for current sector.
 pg0Ptr  ds 2
@@ -760,24 +761,24 @@ bldAux
 * each byte from the pages to build up the aux 
 * page.
         lda pg0Ptr+1
-        sta ]pg0Up
+        sta :pg0Up+2    ; Merlin32 has problems with ]pg0Up = *+2
         lda pg1Ptr+1
-        sta ]pg1Up
+        sta :pg1Up+2
         lda pg2Ptr+1
-        sta ]pg2Up
+        sta :pg2Up+2
         ldy #$00
 * Loop through the data and use the auxLUT*
 * tables to quickly build up the 6-bit aux value
 * from the 3 data bytes by ORing together the 3
 * lookup values.
 :nxtByt
-]pg0Up  = *+2 ; Instruction address accessed.
+:pg0Up        ; Instruction address accessed.
         ldx $ff00,y
         lda auxLUT0,x
-]pg1Up  = *+2 ; Instruction address accessed.
+:pg1Up        ; Instruction address accessed.
         ldx $ff00,y
         ora auxLUT1,x
-]pg2Up  = *+2 ; Instruction address accessed.
+:pg2Up        ; Instruction address accessed.
         ldx $ff00,y
         ora auxLUT2,x
 * Store the resulting aux byte.
@@ -1082,7 +1083,7 @@ cmdTbl  da CMdriveon
 *                 drive.
 *-------------------------------------------------
 * Aliases to ZP bytes for this function.
-]count  equ zpArea
+]count  = zpArea        ; Merlin32 has problems with "]count equ zpArea".  Replace with = instead.
 CMdriveon
         ldx slot
         jsr getByte
@@ -1440,4 +1441,4 @@ decTab  = *&$ff00
         dend
 
 
-        sav RW18525
+        sav RW18

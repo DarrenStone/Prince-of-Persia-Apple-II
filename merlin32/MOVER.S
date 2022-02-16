@@ -31,7 +31,7 @@ PalaceEditor = 0
 
 *-------------------------------
  lst
- put eq
+ put eqs            ; Merlin32: rename eq.s to eqs.s
  lst
  put gameeq
  lst

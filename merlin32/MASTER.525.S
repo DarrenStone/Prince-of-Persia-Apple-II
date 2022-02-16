@@ -1,14 +1,13 @@
-* master 3.5
+* master
 DemoDisk = 0
 FinalDisk = 1
+CopyProtect = 0
 
 org = $f880
  lst off
 *-------------------------------
 *
 *  M  A  S  T  E  R
-*
-*  (3.5" version)
 *
 *  Sits in main l.c.
 *
@@ -29,10 +28,11 @@ org = $f880
 
  jmp EPILOG
  jmp LOADALTSET
+ jmp SCREENDUMP
 
 *-------------------------------
  lst
- put eq
+ put eqs            ; Merlin32 rename eq.s to eqs.s
  lst
  put gameeq
  lst off
@@ -187,6 +187,12 @@ FIRSTBOOT
  lda MIXEDoff
  jsr setaux
 
+ do CopyProtect
+ else
+ lda #$79
+ sta redherring
+ fin
+
 * Set BBund ID byte
 
  lda #POPside1
@@ -241,6 +247,96 @@ RELOAD
 
  jmp driveoff
  fin
+
+*-------------------------------
+*
+* L O A D   G A M E
+*
+*-------------------------------
+* load game 1: tracks 3-4 (code)
+*-------------------------------
+loadgame1
+ lda #3
+ sta track
+
+ jsr setaux
+
+ jsr rw18
+ db RdSeq.Inc,$0e
+
+ jsr rw18
+ db RdGrp.Inc
+ hex 04,05,06,07,08,09,0a,0b,0c
+ hex 0d,20,21,22,23,24,25,26,27
+ rts
+
+*-------------------------------
+* load game 2a: tracks 9-13 (mainmem image tables)
+*-------------------------------
+loadgame2a
+ jsr setmain
+ lda #9
+ sta track
+ jsr rw18
+ db RdSeq.Inc,$84
+ jsr rw18
+ db RdSeq.Inc,$96
+
+ jsr rw18
+ db RdSeq.Inc,$08
+
+ jsr rw18
+ db RdGrp.Inc
+ hex 1a,1b,1c,1d,1e,1f,a8,a9,aa
+ hex ab,ac,ad,ae,af,b0,b1,b2,b3
+
+ jsr rw18
+ db RdGrp.Inc
+ hex b4,b5,b6,b7,b8,b9,ba,bb,bc
+ hex bd,be,bf,00,00,00,00,00,00
+ rts
+
+*-------------------------------
+*
+* Load aux l.c. stuff (tracks 19-21 & 34)
+* (includes music set 1)
+*
+* Load into main hires area & move to aux l.c.
+*
+*-------------------------------
+loadauxlc
+ jsr setmain
+
+ lda #19
+ sta track
+
+ jsr rw18
+ db RdGrp.Inc
+ hex 00,00,20,21,22,23,24,25,26
+ hex 27,28,29,2a,2b,2c,2d,2e,2f
+
+ jsr rw18
+ db RdGrp.Inc
+ hex 00,00,00,00,30,31,32,33,34
+ hex 35,36,37,38,39,3a,3b,3c,3d
+ jsr rw18
+ db RdSeq.Inc,$3e
+
+ lda #34
+ sta track
+ jsr rw18
+ db RdGrp.Inc
+ hex 00,00,50,51,52,53,54,55,56
+ hex 57,58,59,5a,5b,5c,5d,5e,5f
+
+ jsr setaux
+ lda #1
+ sta MSset
+ lda #$d0
+ sta redherring2
+
+ jsr setmain
+ jmp Tmoveauxlc
 
 *-------------------------------
 *
@@ -358,6 +454,43 @@ setdemolevel
  lda demolevel
  ldx demolevel+1
  jmp SetLevel
+
+*-------------------------------
+*
+* Hires screen dump
+*
+* Dump hires screen to tracks 22-23
+* In: A = page # (00/20)
+*
+*-------------------------------
+SCREENDUMP
+ do 0
+
+ clc
+ adc #$20
+ sta :sm1
+ adc #$12
+ sta :sm2
+
+ lda BBundID
+ pha
+ jsr checkdisk
+ jsr setmain
+ lda #22
+ sta track
+ jsr rw18
+ hex c5
+:sm1 hex 20
+ jsr rw18
+ hex c5
+:sm2 hex 32
+
+ jsr driveoff
+ pla
+ sta BBundID
+]rts rts
+
+ fin
 
 *-------------------------------
 *
@@ -889,9 +1022,6 @@ Prolog2
 *
 *-------------------------------
 Epilog
- lda IIGS
- bne SuperEpilog ;super hi-res ending if IIGS
-
  lda #pacEpilog
  sta RAMRDaux
  jsr DblExpand
@@ -917,38 +1047,6 @@ unpacksplash
  lda #pacSplash
  sta RAMRDaux
  jmp DblExpand
-
-*-------------------------------
-*
-* Super hi-res epilog (IIGS only)
-*
-*-------------------------------
-SuperEpilog
- lda #1 ;aux
- jsr fadein ;fade in epilog screen
- jsr setaux
-
- lda #s_Epilog
- jsr PlaySongNI
-
- jsr fadeout
- lda #0 ;main
- jsr fadein ;fade to palace screen
- jsr setaux
-
- lda #80
- jsr pauseNI
-
- lda #s_Curtain
- jsr PlaySongNI
-
- lda #255
- jsr pauseNI
-
- jsr fadeout ;...and fade to black
-
- jmp * ;and hang (because it's too much
-;trouble to restart)
 
 *-------------------------------
 *
@@ -1066,76 +1164,9 @@ DOSTARTGAME
 *
 *-------------------------------
 loadperm
- lda #3
- sta track
-
- jsr setaux
-
- jsr rw18
- db RdSeq.Inc,$0e
-
- jsr rw18
- db RdGrp.Inc
- hex 04,05,06,07,08,09,0a,0b,0c
- hex 0d,20,21,22,23,24,25,26,27
-
- jsr setmain
- lda #9
- sta track
- jsr rw18
- db RdSeq.Inc,$84
- jsr rw18
- db RdSeq.Inc,$96
-
- jsr rw18
- db RdSeq.Inc,$08
-
- jsr rw18
- db RdGrp.Inc
- hex 1a,1b,1c,1d,1e,1f,a8,a9,aa
- hex ab,ac,ad,ae,af,b0,b1,b2,b3
-
- jsr rw18
- db RdGrp.Inc
- hex b4,b5,b6,b7,b8,b9,ba,bb,bc
- hex bd,be,bf,00,00,00,00,00,00
-
-*-------------------------------
-*
-* Load aux l.c. stuff (tracks 19-21 & 34)
-* (includes music set 1)
-*
-* Load into main hires area & move to aux l.c.
-*
-*-------------------------------
- lda #19
- sta track
-
- jsr rw18
- db RdGrp.Inc
- hex 00,00,20,21,22,23,24,25,26
- hex 27,28,29,2a,2b,2c,2d,2e,2f
-
- jsr rw18
- db RdGrp.Inc
- hex 00,00,00,00,30,31,32,33,34
- hex 35,36,37,38,39,3a,3b,3c,3d
- jsr rw18
- db RdSeq.Inc,$3e
-
- lda #34
- sta track
- jsr rw18
- db RdGrp.Inc
- hex 00,00,50,51,52,53,54,55,56
- hex 57,58,59,5a,5b,5c,5d,5e,5f
-
- jsr setaux
- lda #1
- sta MSset
-
- jsr setmain
- jmp Tmoveauxlc
+ jsr loadgame1 ;tracks 3-4
+ jsr loadgame2a ;tracks 9-13 (main image tables)
+ jmp loadauxlc
 
 *-------------------------------
 *
@@ -1195,16 +1226,11 @@ LoadStage1A
 LoadStage1B
  jsr driveon
 
- jsr loadmusic3 ;epilog
-
- lda IIGS
- bne :shires ;Super hi-res ending only if IIGS
-
  lda #18
  jsr ]lsub
- jmp driveoff
 
-:shires jsr loadsuper ;in unpack
+ jsr loadmusic3 ;epilog
+
  jmp driveoff
 
 *-------------------------------
@@ -1248,10 +1274,18 @@ LoadStage2
  beq LoadStage2B
 
 LoadStage2A
+ pha
  jsr driveon
+ pla
+ beq :1 ;don't seek track 0
+
+ jsr rw18 ;Copy protection has already been checked
+ db Seek,0,0 ;Drive is already on & at track 0
+;This is just a ruse
+ jsr text ;So's this
 
  lda #0
- jsr loadch7 ;side A only
+:1 jsr loadch7 ;side A only
 
  lda #29
 ]ls2 sta track
@@ -1290,6 +1324,7 @@ loadch7
  hex 00,00,00,00,9f,a0,a1,a2,a3
  bcc :ok
  jsr error
+ inc recheck0
  jmp :test
 :ok
 ]rts rts
@@ -1315,17 +1350,26 @@ LoadStage2B
 *-------------------------------
 LoadStage3
  jsr driveon
+:purple
+ jsr rw18
+ db Seek,0,0
 
- lda #4
- sta track
+ do CopyProtect
+ jsr purple ;in unpack ($ea00)
+;sets purpleflag ($da) to #$01
+ ;uses $6300 aux as scratch
+ fin
 
-:loop jsr rw18
+ jsr rw18
+ db Seek,0,4
+
+ jsr rw18
  db RdGrpErr.Inc
  hex 00,00,00,00,00,00,00,00,00
  hex 00,20,21,22,23,24,25,26,27
  bcc :ok
  jsr error
- jmp :loop
+ jmp :purple
 :ok
  jsr rw18
  db RdSeq.Inc,$60

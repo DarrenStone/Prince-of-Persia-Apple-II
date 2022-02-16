@@ -43,6 +43,7 @@ debugs = $fc00
 *  Jump tables
 *
 *-------------------------------
+ dend               ; Merlin32: Each "dum" requires its own "dend"
  dum mobtables
 
 trobspace = $20
@@ -64,6 +65,7 @@ soundtable ds maxsfx
 
 trobcount ds 1
 
+ dend
  dum savedgame
 
 SavLevel ds 1
@@ -73,6 +75,7 @@ SavTimer ds 2
  ds 1
 SavNextMsg ds 1
 
+ dend
  dum topctrl
 
 start ds 3
@@ -84,6 +87,7 @@ initsystem ds 3
 docrosscut ds 3
 goattract ds 3
 
+ dend
  dum ctrl
 
 PlayerCtrl ds 3
@@ -96,6 +100,7 @@ DoImpale ds 3
 GenCtrl ds 3
 checkimpale ds 3
 
+ dend
  dum auto
 
 AutoCtrl ds 3
@@ -108,6 +113,7 @@ cutguard ds 3
 addguard ds 3
 cut ds 3
 
+ dend
  dum coll
 
 checkbarr ds 3
@@ -124,6 +130,7 @@ checkgate ds 3
 
 enemycoll ds 3
 
+ dend
  dum gamebg
 
 updatemeters ds 3
@@ -159,6 +166,7 @@ yellow ds 3
 setrecheck0 ds 3
 recheckyel ds 3
 
+ dend
  dum specialk
 
 keys ds 3
@@ -188,6 +196,7 @@ cuesong ds 3
 dloop ds 3
 strobe ds 3
 
+ dend
  dum mover
 
 animtrans ds 3
@@ -213,6 +222,7 @@ getflaskframe ds 3
 trigsword ds 3
 jampp ds 3
 
+ dend
  dum ctrlsubs
 
 getframe ds 3
@@ -297,6 +307,7 @@ getabove ds 3
 getaboveinf ds 3
 cmpwall ds 3
 
+ dend
  dum subs
 
 addtorches ds 3
@@ -329,15 +340,18 @@ initialguards ds 3
 mirappear ds 3
 crumble ds 3
 
+ dend
  dum sound
 
 playback ds 3
 
+ dend
  dum msys
 
 _minit ds 3
 _mplay ds 3
 
+ dend
  dum seqtable
 
 Fdef ds 1200
@@ -345,6 +359,7 @@ altset1 ds 200
 altset2 ds 450
 swordtab ds 192
 
+ dend
  dum misc
 
 VanishChar ds 3
@@ -369,6 +384,7 @@ LoadLevelX ds 3
 checkalert ds 3
 dispversion ds 3
 
+ dend
  dum debugs
 
 showpage ds 3
@@ -386,6 +402,7 @@ locals = $e8
 *-------------------------------
 *  $40-e7: Game globals
 *-------------------------------
+ dend
  dum $40
 
 Char ds $10
@@ -500,6 +517,7 @@ droppedout ds 1
 *  Page 2-3
 *
 *-------------------------------
+ dend
  dum $212
 
 milestone ds 1
@@ -514,6 +532,7 @@ MSset ds 1
 rjumpflag ds 1
 redherring ds 1
 
+ dend
  dum $300
 
 MinLeft ds 1
@@ -540,6 +559,7 @@ scrncolor ds 1
 redoppmeter ds 1
 timerequest ds 1
 
+ dend
  dum $320
 
 CDthisframe ds $10
@@ -563,6 +583,7 @@ keybuf ds keybuflen
 *  Character data
 *
 *-------------------------------
+ dend
  dum Char
 CharPosn ds 1
 CharX ds 1
@@ -580,6 +601,7 @@ CharID ds 1
 CharSword ds 1
 CharLife ds 1
 
+ dend
  dum Op
 OpPosn ds 1
 OpX ds 1
@@ -597,6 +619,7 @@ OpID ds 1
 OpSword ds 1
 OpLife ds 1
 
+ dend
  dum Kid
 KidPosn ds 1
 KidX ds 1
@@ -614,6 +637,7 @@ KidID ds 1
 KidSword ds 1
 KidLife ds 1
 
+ dend
  dum Shad
 ShadPosn ds 1
 ShadX ds 1
@@ -631,6 +655,7 @@ ShadID ds 1
 ShadSword ds 1
 ShadLife ds 1
 
+ dend
  dum FCharVars
 FCharImage ds 1
 FCharX ds 2

@@ -1,5 +1,5 @@
 * grafix
-CopyProtect = 1
+CopyProtect = 0
 EditorDisk = 0
 org = $400
  tr on
@@ -113,7 +113,7 @@ VBLvect jmp VBLANK ;changed by InitVBLANK if IIc
 
 *-------------------------------
  lst
- put eq
+ put eqs                ; Merlin32: Rename eq.s to eqs.s
  lst
  put gameeq
  lst
@@ -901,8 +901,8 @@ DIMCHAR
 *  but wildly offscreen values will slow it down
 *
 *-------------------------------
-]XL = XCO
-]XH = OFFSET
+]XL = merlin32_XCO      ;; Merlin32: See EQS.S
+]XH = merlin32_OFFSET   
 
 range = 36*7 ;largest multiple of 7 under 256
 
@@ -1230,8 +1230,6 @@ PREAD
 *
 *-------------------------------
 SETCENTER
- jsr normspeed ;IIGS
-
  lda #$ff
  sta joyon ;Joystick on
 
@@ -2026,8 +2024,41 @@ CHECKIIGS
  jsr $FE1F
  bcs :notGS
 
+* Set default settings
+
+ xc
+ lda $c034
+ and #$f0
+ sta $c034 ;black border
+
+ lda #$f0
+ sta $c022 ;black bg, white text
+
+ lda #$80
+ trb $c036 ;normal speed
+
+* & set control panel to match the new reality
+
+ lda #$00
+ ldy #$1c ;border
+ jsr setparam
+
+ lda #$00
+ ldy #$1b ;bg
+ jsr setparam
+
+ lda #$0f
+ ldy #$1a ;text
+ jsr setparam
+
+ lda #$00
+ ldy #$20 ;speed
+ jsr setparam
+
  lda #1
  bne :set
+ xc off
+ fin
 
 :notGS lda #0
 :set sta IIGS
@@ -2054,26 +2085,20 @@ FASTSPEED
 
 *-------------------------------
 *
-* Restore speed to normal (& bg & border to black)
+* Restore speed to normal
 *
 *-------------------------------
 NORMSPEED
  lda IIGS
  beq ]rts
 
- xc
- lda $c034
- and #$f0
- sta $c034 ;black border
-
- lda #$f0
- sta $c022 ;black bg, white text
-
+ ldy #$20
+ jsr getparam ;ctrl panel speed
+ bne ]rts
  lda #$80
- trb $c036 ;normal speed
- xc off
-
+ trb $C036
  rts
+ xc off
 
 *-------------------------------
 *

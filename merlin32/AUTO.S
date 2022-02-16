@@ -1,3 +1,4 @@
+
 * auto
 DemoDisk = 0
 org = $5400
@@ -23,7 +24,7 @@ org = $5400
 
 *-------------------------------
  lst
- put eq
+ put eqs            ; Merlin32: rename eq.s to eqs.s
  lst
  put gameeq
  lst
@@ -999,7 +1000,7 @@ TestStrike
 :cont1 cmp #strikerange2
  bcs ]rts
 
- lda #99 "stabbed"
+ lda #99 ; "stabbed"
  sta OpAction
 ]rts rts
 
@@ -1091,8 +1092,9 @@ shadpos12 hex 0f,51,f0,00,00,00,00
  db stepfall
 
 *-------------------------------
-EndProg = -2
-EndDemo = -1
+;; Merlin32: Replace negative decimals hex equivalent
+EndProg = $FF-1     ;-2
+EndDemo = $FF       ;-1
 Ctr = 0
 Fwd = 1
 Back = 2

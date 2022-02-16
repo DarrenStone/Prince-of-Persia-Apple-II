@@ -1,6 +1,6 @@
 * specialk
 EditorDisk = 0
-FinalDisk = 0 ;removes all cheat keys
+FinalDisk = 1 ;removes all cheat keys
 DebugKeys = 0
  tr on
  lst off
@@ -42,7 +42,7 @@ org = $d900
 
 *-------------------------------
  lst
- put eq
+ put eqs            ; Merlin32: rename eq.s to eqs.s
  lst
  put gameeq
  lst
@@ -245,7 +245,10 @@ KEYS2 sta keypress
 
  jsr shortentime
 :2
- fin
+;; Merlin32: The "fin" below doesn't have a corresponding "do"
+;;           "C_skip" above is part of the release version, so it should
+;;           be included when FinalDisk == 1
+; fin
 
 * Special keys
 

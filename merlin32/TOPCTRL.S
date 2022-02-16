@@ -3,7 +3,7 @@ org = $2000
 EditorDisk = 0
 FinalDisk = 1
 DemoDisk = 0
-ThreeFive = 1 ;3.5" disk?
+ThreeFive = 0 ;3.5" disk?
  tr on
  lst off
 *-------------------------------
@@ -25,7 +25,7 @@ ThreeFive = 1 ;3.5" disk?
 
 *-------------------------------
  lst
- put eq
+ put eqs            ; Merlin32: rename eq.s to eqs.s
  lst
  put gameeq
  lst
@@ -1610,27 +1610,29 @@ showtext jsr vblank
 *-------------------------------
 static?
  cmp #0
- beq ]ok
+ beq merlin32_ok
  cmp #15 ;stand
- beq ]ok
+ beq merlin32_ok
  cmp #229 ;brandish sword
- beq ]ok
+ beq merlin32_ok
  cmp #109 ;crouching
- beq ]ok
+ beq merlin32_ok
  cmp #171 ;en garde
- beq ]ok
+ beq merlin32_ok
  cmp #166 ;alert stand (for gd.)
- beq ]ok
+ beq merlin32_ok
 cold?
  cmp #185 ;dead
- beq ]ok
+ beq merlin32_ok
  cmp #177 ;impaled
- beq ]ok
+ beq merlin32_ok
  cmp #178 ;halves
- beq ]ok
+ beq merlin32_ok
  lda #1
  rts
-]ok lda #0
+;; Merlin32 has trouble with this "]ok" local label.  Use global label instead.
+;; ]ok lda #0
+merlin32_ok lda #0
 ]rts rts
 
 *-------------------------------

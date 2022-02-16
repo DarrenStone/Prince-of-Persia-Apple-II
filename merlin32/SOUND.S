@@ -18,7 +18,7 @@ spkr = $c030
 *-------------------------------
  put soundnames
  put gameeq
- put eq
+ put eqs            ; Merlin32: rename eq.s to eqs.s
 
 *-------------------------------
 *

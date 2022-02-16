@@ -1,3 +1,4 @@
+
 * subs
 DemoDisk = 0
 EditorDisk = 0
@@ -44,7 +45,7 @@ org = $e000
 
 *-------------------------------
  lst
- put eq
+ put eqs            ; Merlin32: Rename eq.s to eqs.s
  lst
  put gameeq
  lst
@@ -1179,8 +1180,9 @@ startK7
 *-------------------------------
 * Demo commands
 *-------------------------------
-EndProg = -2
-EndDemo = -1
+;; Merlin32: Replace negative decimal with hex equiv.
+EndProg = $FF-1 ;-2
+EndDemo = $FF   ;-1
 Ctr = 0
 Fwd = 1
 Back = 2

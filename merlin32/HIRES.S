@@ -59,6 +59,7 @@ OFFRIGHT ds 1
 YREG ds 1
 CARRY ds 1
 
+ dend           ; Merlin32: Each "dum" requires its own "dend"
  dum locals2
 index
 ztemp

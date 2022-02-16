@@ -54,6 +54,8 @@ _epilog ds 3
 _loadaltset ds 3
  ds 3 ;_screendump
 
+;; Merlin32: Each "dum" needs its own "dend"
+ dend
  dum master ;ed
 
  ds 15
@@ -68,11 +70,13 @@ _savelevel ds 3
 _savelevelg ds 3
 _screendump ds 3
 
+ dend
  dum hrtables
 
 YLO ds $c0
 YHI ds $c0
 
+ dend
  dum hires
 
 _boot3 ds 3
@@ -96,6 +100,7 @@ _copy2000ma ds 3
 _copy2000am ds 3
 
 
+ dend
  dum unpack
 
 SngExpand ds 3
@@ -115,6 +120,7 @@ fadein ds 3
 loadsuper ds 3
 fadeout ds 3
 
+ dend
  dum grafix
 
 gr ds 3
@@ -215,6 +221,7 @@ vblank ds 3
 
 vbli ds 3
 
+ dend
  dum redbufs
 
  ds 60 ;unused
@@ -228,18 +235,21 @@ objbuf ds 30
 whitebuf ds 30
 topbuf ds 10
 
+ dend
  dum menudata ;ed only
 
 menutype ds 30
 menuspec ds 30
 menubspec ds 30
 
+ dend
  dum frameadv
 
 sure ds 3
 fast ds 3
 getinitobj ds 3
 
+ dend
  dum tables
 
 ByteTable ds $100
@@ -255,6 +265,7 @@ BlockBot ds 5
 FloorY ds 5
 BlockAy ds 5
 
+ dend
  dum blueprnt
 
 BLUETYPE ds 24*30
@@ -269,6 +280,7 @@ INFO ds 256
 *  Blueprint info
 *
 *-------------------------------
+ dend
  dum INFO
 
  ds 64
@@ -299,6 +311,7 @@ maxmid = 46 ;x11
 maxobj = 20 ;x12
 maxmsg = 32 ;x5
 
+ dend
  dum imlists
 
 genCLS ds 1
@@ -362,12 +375,21 @@ msgOP ds maxmsg
 *-------------------------------
 *  $00-17: Hires parameters
 *-------------------------------
+ dend
+
+;; Merlin32 bug: Labels defined in "dum" section can't be in some scenarios.
+;;               Create hard-coded equivalents instead.
+;;
+;;               These are used in GRAFIX.S (5.25 and 3.5 versions)
+merlin32_XCO = $01
+merlin32_OFFSET = $03 
+ 
  dum $00
 
-PAGE ds 1
-XCO ds 1
-YCO ds 1
-OFFSET ds 1
+PAGE ds 1       ; $00
+XCO ds 1        ; $01
+YCO ds 1        ; $02
+OFFSET ds 1     ; $03
 IMAGE ds 2
 OPACITY ds 1
 TABLE ds 2
@@ -387,6 +409,7 @@ width = IMAGE+1
 *-------------------------------
 *  $18-3f: Global vars
 *-------------------------------
+ dend
  dum $18
 
 JSTKX ds 1
@@ -428,6 +451,7 @@ butt ds 1
 *  Pages 2-3
 *
 *-------------------------------
+ dend
  dum $200
 
 inmenu ds 1
@@ -448,12 +472,14 @@ keypress ds 1
 keydown ds 1
 IIGS ds 1
 
+ dend
  dum $3c0
 
 sortX ds $10
 BELOW ds $10
 SBELOW ds $10
 
+ dend
  dum $3f0
 
 bluepTRK ds 1

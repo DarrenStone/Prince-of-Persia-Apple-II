@@ -87,7 +87,14 @@ Blox4 = 4*BlockHeight
  db ]byte,]byte,]byte,]byte,]byte,]byte,]byte
  --^
 
-]byte = ]byte+1
+;; Merlin32 bug: ]byte variable has wrong value here.
+;;
+;;               ]byte should be 13 at this point, but in Merlin32 it is
+;;               still -5 (the increments in the "lup" are incorrectly ignored)
+;;
+;;               Explicitly set ]byte to 14 instead
+;;]byte = ]byte+1
+]byte = 14
  db ]byte,]byte
 
 *-------------------------------

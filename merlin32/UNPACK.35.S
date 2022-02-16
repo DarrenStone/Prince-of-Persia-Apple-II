@@ -30,7 +30,7 @@ org = $ea00
  lst
  put gameeq
  lst
- put eq
+ put eqs            ; Merlin32: rename eq.s to eqs.s
  lst off
 
 IOUDISoff = $c07f
@@ -95,6 +95,11 @@ Inc = $40 ;.Inc to inc track
 *  (Sorry about the code--it's lifted directly from DRAZ)
 *
 *-------------------------------
+
+;; Merlin32 bug: PAC label below can't be used with LDA (PAC,X) address mode.
+;;               Create a hard-coded label instead.
+merlin32_PAC = $00
+
  dum $00
 
 PAC ds 2
@@ -181,19 +186,19 @@ SNGEXPAND
 :6 BIT VA
  BMI :11
  LDX #0
- LDA (PAC,X)
+ LDA (merlin32_PAC,X)
  STA VB
  CMP V8
  BNE :10
  INC PAC
  BNE :7
  INC PAC+1
-:7 LDA (PAC,X)
+:7 LDA (merlin32_PAC,X)
  STA V9
  INC PAC
  BNE :8
  INC PAC+1
-:8 LDA (PAC,X)
+:8 LDA (merlin32_PAC,X)
  STA VB
  INC PAC
  BNE :9

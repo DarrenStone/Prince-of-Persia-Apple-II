@@ -17,7 +17,7 @@ org = $3a00
 
 *-------------------------------
  lst
- put eq
+ put eqs            ; Merlin32: rename eq.s to eqs.s
  lst
  put gameeq
  lst
@@ -42,20 +42,21 @@ atemp ds 1
 DeathVelocity = 33
 OofVelocity = 22
 
-grabreach = -8
+;; Merlin32 - Replace negative declimals with hex equivalent
+grabreach = $ff-7     ;-8
 grabspeed = 32 ;max Y-vel to grab ledge
 grablead = 25 ;increase to grab ledge earlier
 stuntime = 12
 
 jumpupreach = 0
-jumpupangle = -6
+jumpupangle = $ff-5   ;-6
 
 JumpBackThres = 6
 StepOffFwd = 3
 StepOffBack = 8
 
 swordthres = 90 ;to go en garde (facing fwd)
-swordthresN = -10 ;" " (behind you)
+swordthresN = $ff-9  ;-10 ;" " (behind you)
 blockthres = 32
 graceperiod = 9
 gdpatience = 15
@@ -64,8 +65,8 @@ gclimbthres = 6
 
 stairthres = 30
 
-plus1 db -1,1
-minus1 db 1,-1
+plus1 db $FF,$01  ;-1,1
+minus1 db $01,$FF ;1,-1
 
 *-------------------------------
 *
