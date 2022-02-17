@@ -2,6 +2,7 @@
 EditorDisk = 0
 FinalDisk = 1 ;removes all cheat keys
 DebugKeys = 0
+KeyboardPatch = 0 ; Fix IIe and IIc keyboard handling
  tr on
  lst off
 org = $d900
@@ -726,11 +727,27 @@ KREAD
  lda keypress
  bmi :cont ;fresh press
 
+ do KeyboardPatch ; - - - - - - - Begin Keyboard Patch
+
+ ldx keytracking
+ bpl ]rts         ; No fresh press, and we are not tracking keydown.  Ignore keydown value and return.
+
+ ldx keydown      ; No fresh press, but we are tracking keydown.  Check if the key is still down
+ stx keytracking  ;   and update keytracking.
+
+ else             ; - - - - - - - Original code.  Check keydown regardless.
+
  ldx keydown
+
+ fin              ; - - - - - - - End KeyboardPatch
+
  bpl ]rts ;No fresh press & no key down
 
  ora #$80 ;stale press, key still down
 :cont
+ do KeyboardPatch
+ sta keytracking  ; We are tracking a key
+ fin
  cmp #kleft
  beq :left
  cmp #kleft-SHIFT

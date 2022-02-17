@@ -1,6 +1,6 @@
 * specialk
 EditorDisk = 0
-FinalDisk = 0 ;removes all cheat keys
+FinalDisk = 1 ;removes all cheat keys
 DebugKeys = 0
 KeyboardPatch = 1 ; Fix IIe and IIc keyboard handling
  tr on

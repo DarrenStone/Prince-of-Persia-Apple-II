@@ -472,6 +472,13 @@ keypress ds 1
 keydown ds 1
 IIGS ds 1
 
+;; IIe keyboard fix
+;;
+;; ineditor isn't used anywhere, so we'll use it to indicate whether
+;; we're currently tracking keydown.  When bit 7 is zero, we ignore
+;; the keydown value ($c010)
+keytracking = ineditor
+
  dend
  dum $3c0
 
