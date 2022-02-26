@@ -1,6 +1,8 @@
 * topctrl
 org = $2000
 EditorDisk = 0
+; 2022: FinalDisk=0 enables the "R" resurrect command, but this assembles
+;       too much code for track 4 so it can't be used.
 FinalDisk = 1
 DemoDisk = 0
 ThreeFive = 0 ;3.5" disk?
