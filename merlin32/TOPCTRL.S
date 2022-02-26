@@ -5,7 +5,10 @@ EditorDisk = 0
 ;       too much code for track 4 so it can't be used.
 FinalDisk = 1
 DemoDisk = 0
+; 2022: CopyProtect=0 or ThreeFive=1 forces purple copy protection to pass.
+;       Either is needed for final princess scene.
 ThreeFive = 0 ;3.5" disk?
+CopyProtect = 0
  tr on
  lst off
 *-------------------------------
@@ -1553,6 +1556,12 @@ flipdisk
  lda #1
  sta purpleflag ;pass copy-protect!
  rts
+ fin
+
+ do CopyProtect
+ else
+ lda #1
+ sta purpleflag ;pass copy-protect!  Needed for final princess scene on 5.25 build.
  fin
 
  do DemoDisk
