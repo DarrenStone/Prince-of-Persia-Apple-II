@@ -33,3 +33,9 @@
 /merlin32/VERSION.DEV
 /merlin32/VERSION.KBD
 /merlin32/_FileInformation.txt
+/pop-maker/popmaker
+/pop-maker/popmaker.system
+/pop-maker/rw18.6900
+/pop-maker/*.po
+/pop-maker/*.fdi
+/pop-maker/*_Output.txt
