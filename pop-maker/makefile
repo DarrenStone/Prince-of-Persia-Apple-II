@@ -132,8 +132,6 @@ $(DISK51):
 	$(CADIUS) addfile $(DISK51) /$(VOL51)/obj/ obj/SEQTABLE
 	$(CADIUS) addfile $(DISK51) /$(VOL51)/obj/ obj/CTRL
 	$(CADIUS) addfile $(DISK51) /$(VOL51)/obj/ obj/COLL
-	$(CADIUS) addfile $(DISK51) /$(VOL51)/obj/ obj/GAMEBG
-	$(CADIUS) addfile $(DISK51) /$(VOL51)/obj/ obj/AUTO
 	$(CADIUS) addfile $(DISK51) /$(VOL51)/obj/ obj/CTRLSUBS
 	$(CADIUS) addfile $(DISK51) /$(VOL51)/obj/ obj/SPECIALK
 	$(CADIUS) addfile $(DISK51) /$(VOL51)/obj/ obj/SPECIALK.DBG
@@ -149,6 +147,8 @@ $(DISK52): $(OBJS)
 	$(CADIUS) createfolder $(DISK52) /$(VOL52)/obj
 	$(CADIUS) createfolder $(DISK52) /$(VOL52)/img
 	$(CADIUS) createfolder $(DISK52) /$(VOL52)/lev
+	$(CADIUS) addfile $(DISK52) /$(VOL52)/obj/ obj/GAMEBG
+	$(CADIUS) addfile $(DISK52) /$(VOL52)/obj/ obj/AUTO
 	$(CADIUS) addfile $(DISK52) /$(VOL52)/img/ img/IMG.BGTAB2.DUN
 	$(CADIUS) addfile $(DISK52) /$(VOL52)/obj/ obj/CTRLSUBS
 	$(CADIUS) addfile $(DISK52) /$(VOL52)/obj/ obj/SPECIALK
@@ -172,6 +172,12 @@ $(DISK52): $(OBJS)
 	$(CADIUS) addfile $(DISK52) /$(VOL52)/img/ img/IMG.CHTAB4.GD
 	$(CADIUS) addfile $(DISK52) /$(VOL52)/img/ img/IMG.CHTAB4.FAT
 	$(CADIUS) addfile $(DISK52) /$(VOL52)/img/ img/IMG.BGTAB1.DUN
+	$(CADIUS) addfile $(DISK52) /$(VOL52)/obj/ obj/SPECIALK.DBG
+	$(CADIUS) addfile $(DISK52) /$(VOL52)/obj/ obj/SPECIALK.DEV
+	$(CADIUS) addfile $(DISK52) /$(VOL52)/obj/ obj/SPECIALK.KBD
+	$(CADIUS) addfile $(DISK52) /$(VOL52)/obj/ obj/VERSION.DBG
+	$(CADIUS) addfile $(DISK52) /$(VOL52)/obj/ obj/VERSION.DEV
+	$(CADIUS) addfile $(DISK52) /$(VOL52)/obj/ obj/VERSION.KBD
 
 $(DISK53): $(OBJS)
 	$(CADIUS) createvolume $(DISK53) $(VOL53) 140kB

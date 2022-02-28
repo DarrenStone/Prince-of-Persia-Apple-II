@@ -117,6 +117,8 @@ SideAScript
     DA f_coll,$0b00
     DB dWriteTrack              ; 16
 
+    DB dSetSourceDisk,2     ; popmaker disk 2
+
 ** - - - - - - - - - - - - - - - - - GAMEBG
     DB dLoadFile
     DA f_gameBG,$0000
@@ -124,8 +126,6 @@ SideAScript
     DB dLoadFile
     DA f_auto,$0800
     DB dWriteTrack              ; 17
-
-    DB dSetSourceDisk,2     ; popmaker disk 2
 
 ** - - - - - - - - - - - - - - - - - IMG.BGTAB2.DUN
     DB dLoadFile
