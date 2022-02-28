@@ -39,13 +39,15 @@ VOL53=popmaker.525
 THUMBDRIVE=/Volumes/IIGS
 THUMBDRIVE_DEST=$(THUMBDRIVE)/Darren/
 
-pop: $(OBJS)
-	@echo Make popmaker
+popmaker: $(OBJS)
+# Merlin32 doesn't set the _FileInformation.txt properly for popmaker.system, so overwrite 
+# it with the correct info
+	$(CP) FileInformation.txt _FileInformation.txt
 
-all: pop alldisks
+all: popmaker alldisks
 	@echo Make All
 
-disk: $(OBJS) $(DISK35) $(DISK51)
+disk: pop $(DISK35) $(DISK51)
 	$(CADIUS) replacefile $(DISK35) /$(VOL35) ./popmaker.system
 	$(CADIUS) replacefile $(DISK51) /$(VOL51) ./popmaker.system
 
@@ -53,7 +55,7 @@ alldisks: disk35 disk525
 	@echo Make all disks
 
 clean:
-	-$(RM) $(OBJS) popmaker popmaker_Output.txt rw18.6900_Output.txt
+	-$(RM) $(OBJS) popmaker.system_Output.txt rw18.6900_Output.txt _FileInformation.txt
 
 cleandisks: clean35 clean525
 	@echo Clean Disks
@@ -76,10 +78,7 @@ install: alldisks
 eject:
 	diskutil eject $(THUMBDRIVE)
 
-popmaker.system: popmaker
-	$(CP) popmaker popmaker.system
-
-popmaker: $(SOURCES)
+popmaker.system: $(SOURCES)
 	$(MERLIN) popmaker.s
 
 rw18.6900: rw18.6900.s

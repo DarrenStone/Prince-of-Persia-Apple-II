@@ -997,3 +997,5 @@ ReleasePatch
     put script.sideb
     put script.patches
 
+    sav popmaker.system
+    
