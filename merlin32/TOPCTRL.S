@@ -1558,15 +1558,18 @@ flipdisk
  rts
  fin
 
- do CopyProtect
- else
- lda #1
- sta purpleflag ;pass copy-protect!  Needed for final princess scene on 5.25 build.
- fin
-
  do DemoDisk
  jmp GOATTRACT
  else
+
+*
+* 2022: When CopyProtect=0 and ThreeFive=0, the assembly will produce a binary
+*       that's too big to fit on track 4 (by a single byte!)
+*
+*       So, if CopyProtect=0 then skip the unneeded protection check below so 
+*       that the 5.25 code fits.
+*
+ DO CopyProtect
 
 * 1st copy protection check
 
@@ -1579,6 +1582,17 @@ flipdisk
   jmp attractmode
 
 * Passed copy protection--continue
+
+ ELSE ; CopyProtect=0
+
+*
+* 2022: If CopyProtect=0 then we need to pass this protection check in order to enable
+*       the final princess scene.
+*
+ lda #1
+ sta purpleflag
+
+ FIN ; CopyProtect
 
 :1 lda #" "
  jsr lrcls
