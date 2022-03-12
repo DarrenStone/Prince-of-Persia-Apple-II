@@ -6,7 +6,7 @@ OBJS_PATCHED=SPECIALK.DEV SPECIALK.DBG SPECIALK.KBD VERSION.KBD VERSION.DBG VERS
 
 OBJS=$(OBJS_UNIVERSAL) $(OBJS_525) $(OBJS_PATCHED)
 
-MERLIN=~/opt/bin/Merlin32
+MERLIN=~/opt/bin/Merlin32 -v ./
 
 RM=rm -f
 CP=cp
@@ -17,12 +17,13 @@ all: $(OBJS)
 clean:
 	$(RM) $(OBJS)
 	$(RM) _FileInformation.txt
+	$(RM) *_Output.txt
 
 install: $(OBJS)
 	$(CP) $(OBJS) ../pop-maker/obj/
 
 ./% : %.S
-	$(MERLIN) macs/ $<
+	$(MERLIN) $<
 
 ./RW18 : RW18525.S
-	$(MERLIN) macs/ $<
+	$(MERLIN) $<

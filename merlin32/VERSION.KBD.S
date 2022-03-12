@@ -6,7 +6,7 @@ org = $dfd8
 
 *-------------------------------
 
-TextLine asc "PoP 1.0 2/5/90 (Keyboard Fix 2/15/22)"
+TextLine asc "PoP-Maker //e Keyboard Patch  2/15/22"
  lst
  asc "@"
 *-------------------------------

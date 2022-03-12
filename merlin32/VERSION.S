@@ -6,7 +6,7 @@ org = $dfd8
 
 *-------------------------------
 
-TextLine asc "Prince of Persia 1.0  2/5/90"
+TextLine asc "PoP-Maker Release Version 1.0  2/5/90"
  lst
  asc "@"
 *-------------------------------

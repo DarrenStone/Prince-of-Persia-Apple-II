@@ -243,8 +243,6 @@ ClearScreen
     jsr VTab
     rts
 
-sTitleBar str "  POP MAKER v0.1  "
-
 **************************************
 ** Invert a row of text
 **************************************
@@ -381,12 +379,15 @@ sAborted        str "Aborted."
 sFinished       str "Finished."
 
 sHitAnyKey      str "Hit any key to continue."
-sIntroMulti
-    str "Prince of Persia Disk Maker v0.1"
-    str "----------------------------------------"
-    str "This utility allows you to create a"
-    str "real 18-sector Prince of Persia game"
-    str "disk on real hardware.",kCR
-    str "To begin, enter the location of your"
-    str "destination 5.25 disk drive.",kCR
-    db 0
+
+sTitleBar       str "  POP MAKER v1.0  "
+sIntroMulti     str " --------------------------------------"
+                str "  Prince of Persia Disk Maker     v1.0"
+                str "  Darren Stone               2022-3-11"
+                str " --------------------------------------",kCR
+                str "  This utility allows you to  create a"
+                str "  real 18-sector Prince of Persia game"
+                str "  disk on real hardware.",kCR
+                str "  To begin, enter the location of your"
+                str "  destination 5.25 disk drive.",kCR,kCR
+                db 0
