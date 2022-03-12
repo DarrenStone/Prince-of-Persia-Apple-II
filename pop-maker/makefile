@@ -47,11 +47,11 @@ popmaker: $(OBJS)
 all: popmaker alldisks
 	@echo Make All
 
-disk: pop $(DISK35) $(DISK51)
+disk: popmaker $(DISK35) $(DISK51)
 	$(CADIUS) replacefile $(DISK35) /$(VOL35) ./popmaker.system
 	$(CADIUS) replacefile $(DISK51) /$(VOL51) ./popmaker.system
 
-alldisks: disk35 disk525
+alldisks: disk disk35 disk525
 	@echo Make all disks
 
 clean:
@@ -141,7 +141,7 @@ $(DISK51):
 	$(CADIUS) addfile $(DISK51) /$(VOL51)/obj/ obj/VERSION.DEV
 	$(CADIUS) addfile $(DISK51) /$(VOL51)/obj/ obj/VERSION.KBD
 
-$(DISK52): $(OBJS)
+$(DISK52):
 	$(CADIUS) createvolume $(DISK52) $(VOL52) 140kB
 	$(CADIUS) createfolder $(DISK52) /$(VOL52)/obj
 	$(CADIUS) createfolder $(DISK52) /$(VOL52)/img
@@ -170,19 +170,14 @@ $(DISK52): $(OBJS)
 	$(CADIUS) addfile $(DISK52) /$(VOL52)/img/ img/IMG.CHTAB4.SKEL
 	$(CADIUS) addfile $(DISK52) /$(VOL52)/img/ img/IMG.CHTAB4.GD
 	$(CADIUS) addfile $(DISK52) /$(VOL52)/img/ img/IMG.CHTAB4.FAT
-	$(CADIUS) addfile $(DISK52) /$(VOL52)/img/ img/IMG.BGTAB1.DUN
-	$(CADIUS) addfile $(DISK52) /$(VOL52)/obj/ obj/SPECIALK.DBG
-	$(CADIUS) addfile $(DISK52) /$(VOL52)/obj/ obj/SPECIALK.DEV
-	$(CADIUS) addfile $(DISK52) /$(VOL52)/obj/ obj/SPECIALK.KBD
-	$(CADIUS) addfile $(DISK52) /$(VOL52)/obj/ obj/VERSION.DBG
-	$(CADIUS) addfile $(DISK52) /$(VOL52)/obj/ obj/VERSION.DEV
-	$(CADIUS) addfile $(DISK52) /$(VOL52)/obj/ obj/VERSION.KBD
 
-$(DISK53): $(OBJS)
+$(DISK53): 
 	$(CADIUS) createvolume $(DISK53) $(VOL53) 140kB
 	$(CADIUS) createfolder $(DISK53) /$(VOL53)/obj
 	$(CADIUS) createfolder $(DISK53) /$(VOL53)/img
 	$(CADIUS) createfolder $(DISK53) /$(VOL53)/lev
+	$(CADIUS) addfile $(DISK53) /$(VOL53)/img/ img/IMG.BGTAB1.DUN
+	$(CADIUS) addfile $(DISK53) /$(VOL53)/img/ img/IMG.BGTAB2.DUN
 	$(CADIUS) addfile $(DISK53) /$(VOL53)/img/ img/IMG.CHTAB4.SHAD
 	$(CADIUS) addfile $(DISK53) /$(VOL53)/img/ img/IMG.CHTAB4.VIZ
 	$(CADIUS) addfile $(DISK53) /$(VOL53)/img/ img/VID.STUFF.0C
@@ -202,12 +197,3 @@ $(DISK53): $(OBJS)
 	$(CADIUS) addfile $(DISK53) /$(VOL53)/lev/ lev/LEVEL4
 	$(CADIUS) addfile $(DISK53) /$(VOL53)/lev/ lev/LEVEL3
 	$(CADIUS) addfile $(DISK53) /$(VOL53)/img/ img/MUSIC.SET3
-	$(CADIUS) addfile $(DISK53) /$(VOL53)/obj/ obj/CTRLSUBS
-	$(CADIUS) addfile $(DISK53) /$(VOL53)/obj/ obj/SPECIALK
-	$(CADIUS) addfile $(DISK53) /$(VOL53)/obj/ obj/SPECIALK.DBG
-	$(CADIUS) addfile $(DISK53) /$(VOL53)/obj/ obj/SPECIALK.DEV
-	$(CADIUS) addfile $(DISK53) /$(VOL53)/obj/ obj/SPECIALK.KBD
-	$(CADIUS) addfile $(DISK53) /$(VOL53)/obj/ obj/VERSION
-	$(CADIUS) addfile $(DISK53) /$(VOL53)/obj/ obj/VERSION.DBG
-	$(CADIUS) addfile $(DISK53) /$(VOL53)/obj/ obj/VERSION.DEV
-	$(CADIUS) addfile $(DISK53) /$(VOL53)/obj/ obj/VERSION.KBD

@@ -66,6 +66,8 @@ SideBScript
     DB dWriteTrack             ; 6
     DB dCloseFile
 
+    DB dSetSourceDisk,3        ; popmaker disk 3
+
 ** - - - - - - - - - - - - - - - - - IMG.BGTAB1.DUN
     DB dOpenFile
     DA f_imgBgTab1Dun
@@ -80,8 +82,6 @@ SideBScript
     DA f_imgBgTab2Dun,$0000
     DB dFixImageTable,$00,$84
     DB dWriteTrack             ; 9
-
-    DB dSetSourceDisk,3        ; popmaker disk 3
 
 ** - - - - - - - - - - - - - - - - - IMG.CHTAB4.SHAD
     DB dOpenFile
