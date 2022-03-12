@@ -220,6 +220,14 @@ _driveRefCount db 0
 IWM_PH0_OFF = $C080
 IWM_PH0_ON  = $C081
 
+RWSeekToTrack0IfNecessary
+    lda hasTrackZero
+    beq RWSeekToTrack0  ; If we don't know where the drive head is then seek.
+    lda rw18Track
+    bne RWSeekToTrack0  ; If we're not on track zero then seek.
+    clc
+    rts                 ; We know we're already at track zero.  Nothing to do.
+
 RWSeekToTrack0
     jsr RWDriveOn
 

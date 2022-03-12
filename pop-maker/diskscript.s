@@ -55,7 +55,11 @@ DSStartScript
     lda #0
     sta dsAuxPageCount          ; Reset AuxMem track buffer
 
-]nextCommand                    ; Loop over script commands
+    lda hasTrackZero
+    bne :nextCommand
+    jsr RWSeekToTrack0          ; Ensure we know where the drive head is before starting.
+
+:nextCommand                    ; Loop over script commands
     jsr _DSCheckForEscape
     bcs :abort
     cmp #"x"-kCTRL              ; DEBUG.  Hit Ctrl-X to skip script without error
@@ -88,7 +92,7 @@ DSStartScript
     jsr :trampolene             ;  and dispatch.
 
     bcs :error                  ; If carry set, a disk error occurred.  Abort.
-    bcc ]nextCommand            ;  otherwise, run next command.
+    bcc :nextCommand            ;  otherwise, run next command.
 
 :trampolene
     jmp (:dsDispatchPtr)         ; Trampolene to the script function.
@@ -274,7 +278,7 @@ dsSeek
     beq :seekTo0
     jmp RWSeek
 :seekTo0
-    jmp RWSeekToTrack0
+    jmp RWSeekToTrack0IfNecessary
 
 :setTrack
     jsr _DSNextByte  ; track num
