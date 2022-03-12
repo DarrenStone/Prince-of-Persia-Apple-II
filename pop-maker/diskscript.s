@@ -71,6 +71,7 @@ DSStartScript
 
                                 ; End of script clean up...
     jsr _DSFlushAuxBuffer       ; Flush any buffered tracks.
+    bcs :error
 :skip
     jsr DOSCloseIfNecessary
     jsr RWForceDriveOff         ; Turn off drive just to be sure.
@@ -101,6 +102,7 @@ DSStartScript
     MPrintCRStr :sScriptFailed
     jsr PrintCR
     jsr DOSCloseIfNecessary      ; Ensure any open file is closed.
+    jsr RWForceDriveOff
     sec
     rts
 
@@ -258,18 +260,19 @@ dsBreak
 ** Seek [track]
 *****************************
 dsSeek
-    pha
+    sta :saveA
 *
 * If we're asked to seek then we have to flush the buffer
 * before moving the track head.
 *
     jsr _DSFlushAuxBuffer
-    pla
+    bcs :fail
 
 *
 * If modifier bit 0 is clear then move the head.
 * Otherwise, set up rw18Track for the next write.
 *
+    lda :saveA
     and #$10
     bne :setTrack
 
@@ -285,6 +288,12 @@ dsSeek
     sta rw18Track
     clc
     rts
+
+:fail
+    sec
+    rts
+
+:saveA db 0
 
 *****************************
 ** Clear the rw18Buffer (no params)
@@ -522,7 +531,7 @@ _DSCheckForEscape
     rts
 :escape
     sec           ; Found escape.  Set carry
-    rts
+]rts rts
 
 
 *****************************
@@ -532,7 +541,7 @@ _DSCheckForEscape
 *****************************
 _DSFlushAuxBuffer
     ldx dsAuxPageCount  ; Check the buffer size.  If zero there's nothing to do
-    beq :rts
+    beq ]rts
 
     jsr RWDriveOn
 
@@ -540,7 +549,7 @@ _DSFlushAuxBuffer
     sta :currentSlot
 ]next
     jsr _DSCheckForEscape
-    bcs :rts
+    bcs :fail
     cmp #"x"-kCTRL      ; DEBUG.  Hit Ctrl-X to skip script without error
     beq :skip
 
@@ -549,15 +558,18 @@ _DSFlushAuxBuffer
     jsr _DSToAux
 
     jsr RWWriteTrack    ; Write it
-    bcs :rts
+    bcs :fail
     jsr _DSAdvanceTrack ; Increment track
 
     inc :currentSlot    ; Increment slot
     dec dsAuxPageCount  ; Decrement buffer size
     bne ]next
-
-:rts
     jsr RWDriveOff
+    rts
+
+:fail
+    jsr RWDriveOff
+    sec
     rts
 
 :skip
