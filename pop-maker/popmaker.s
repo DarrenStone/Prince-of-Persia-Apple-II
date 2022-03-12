@@ -406,9 +406,10 @@ LoadBootTrack
 *
 * Load the BOOT into staging buffer
 *
+:tryAgain
     MSetPathName f_boot
     jsr DOSLoadFile
-    bcs :error
+    bcs :checkDisk
 
 *
 * Move it to output buffer.
@@ -441,13 +442,13 @@ LoadBootTrack
 :rts
     rts
 
-:error
-    pha
-    jsr PrintCR
-    MPrintStr sOpenError
-    pla
-    jsr PrintA
-    jsr PrintCR
+:checkDisk
+    cmp #kDOSFileNotFound
+    bne :fail
+    jsr PromptForDisk1
+    bcc :tryAgain
+
+:fail
     sec
     rts
 
@@ -458,6 +459,14 @@ rw18Source      db 0,1,2,3,4
 rw18Dest        db 7,6,5,4,3
 rw18Count       = *-rw18Dest
 
+
+PromptForDisk1
+    MPrintCRStr :sInsertDisk1
+    jsr PrintSourceDrive
+    jsr PrintCR
+    jmp WaitForKeyOrEscape
+
+:sInsertDisk1 str kCR,"Insert POPMAKER DISK 1 to ",kCR
 
 **************************************
 **
