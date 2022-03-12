@@ -790,7 +790,9 @@ GetDestDrive
     MPrintStr :sDest
     MPrintStr sSlotPrompt
     lda #6
-    sta defaultNum
+    sta currentNum
+    lda #"8"
+    sta maxNum
     jsr GetNum
     bcs :fail
     cmp #8
@@ -804,8 +806,21 @@ GetDestDrive
     sta destSlot
 ]drive
     MPrintStr sDrivePrompt
-    lda #1
-    sta defaultNum
+    ldx #1              ; default drive 1 or 2
+    lda sourceSlot      ; If source is slot 6 drive 1 then default to drive 2.
+    cmp #$60
+    bne :getDrive
+    lda destSlot
+    cmp #$60
+    bne :getDrive
+    lda sourceDrive
+    cmp #1
+    bne :getDrive
+    inx                 ; Default drive 2
+:getDrive
+    stx currentNum
+    lda #"3"
+    sta maxNum
     jsr GetNum
     bcs :fail
     cmp #2
@@ -891,31 +906,43 @@ sDrivePrompt    str "      Drive: "
 **
 ** Get a number from the keyboard
 **
+** Return in A.  Carry set if cancelled.
+**
 **************************************
-defaultNum      db 0
+currentNum      db 0
+maxNum          db #"8"
+minNum          db #"1"
 GetNum
-    bit $c010
+    lda currentNum          ; Print the current number inversed
+    jsr :PrintCurrentNum
+
+    bit $c010               ; Wait for key
 ]1  lda $c000
     bpl ]1
     bit $c010
-    cmp #kESC
+    cmp #kESC               ; If escape then fail
     beq :fail
-    cmp #$8d
-    bne :2
-    lda defaultNum
-    clc
-    adc #"0"
-:2  cmp #"9"+1
+    cmp #kCR                ; If return then accept current value
+    beq :accept
+                            ; Otherwise, check if valid number and update curretn value
+:2  cmp maxNum
     BRGreaterThanOrEqual ]1
-    cmp #"0"
+    cmp minNum
     BRLessThan ]1
-    pha
-    jsr COUT
-    lda #$8d
-    jsr COUT
-    pla
+                            ; Valid number.  Update currentNum and print it
     sec
     sbc #"0"
+    sta currentNum
+    jsr :PrintCurrentNum
+    jmp ]1                  ; Wait for return key to accept
+
+:accept
+    lda currentNum
+    clc
+    adc #"0"
+    jsr COUT                ; Print non-inverse value
+    jsr PrintCR
+    lda currentNum
     clc
     rts
 
@@ -923,6 +950,14 @@ GetNum
     sec
     rts
 
+:PrintCurrentNum   ; Print inversed number in A
+    pha
+    clc
+    adc #'0'
+    jsr COUT
+    dec CH
+    pla
+    rts
 
 **************************************
 **
