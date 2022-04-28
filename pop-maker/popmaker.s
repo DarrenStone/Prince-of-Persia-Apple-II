@@ -384,9 +384,9 @@ VerifySideB
 **
 ** LoadBootTrack
 **
-** Load BOOT to $3000, then move to $2000
-** Load RW18 to $3000, then move to $2000
-** Write $2000 to track 0
+** Load BOOT to stagingBuffer, then map it into rw18Buffer via MMovePages
+** Load RW18 to stagingBuffer, then map it into rw18Buffer via MMovePages
+** Write 16 pages in rw18Buffer to track 0
 **
 **************************************
 LoadBootTrack

@@ -1,3 +1,21 @@
+
+# -------------------------------------------------------------------------
+#
+# Update these paths to match your build environment
+#
+# Merlin32 and Cadius are available at https://www.brutaldeluxe.fr/products/crossdevtools/
+#
+# -------------------------------------------------------------------------
+
+MERLIN=~/opt/bin/Merlin32
+CADIUS=~/opt/bin/cadius
+RM=rm
+CP=cp
+THUMBDRIVE=/Volumes/IIGS
+THUMBDRIVE_DEST=$(THUMBDRIVE)/Darren/
+
+
+# -------------------------------------------------------------------------
 #
 # Usage:
 #
@@ -15,16 +33,15 @@
 # make disk525          Build three complete 5.25 disk images.
 
 # make install          Copy disk images to USB drive (For transferring to Apple II hardware)
-# make eject            Eject USB drive
+# make eject            Eject USB drive (macOS) 
+#
+# -------------------------------------------------------------------------
 
+
+ASM=$(MERLIN) -v ./
 
 OBJS=popmaker.system rw18.6900
 SOURCES=popmaker.s diskscript.s prodos.s menu.s strings.s macs.s rw18api.s script.sidea.s script.sideb.s script.patches.s debugutil.s equates.s
-
-MERLIN=~/opt/bin/Merlin32 -v ./
-CADIUS=~/opt/bin/cadius
-RM=rm
-CP=cp
 
 DISK35=popmaker35.po
 VOL35=popmaker.35
@@ -36,8 +53,6 @@ VOL51=popmaker.525
 VOL52=popmaker.525
 VOL53=popmaker.525
 
-THUMBDRIVE=/Volumes/IIGS
-THUMBDRIVE_DEST=$(THUMBDRIVE)/Darren/
 
 popmaker: $(OBJS)
 # Merlin32 doesn't set the _FileInformation.txt properly for popmaker.system, so overwrite 
@@ -70,19 +85,19 @@ disk525: $(OBJS) $(DISK51) $(DISK52) $(DISK53)
 	@echo Make 5.25 Disks
 
 install: alldisks
-	cp $(DISK35) $(THUMBDRIVE_DEST)
-	cp $(DISK51) $(THUMBDRIVE_DEST)
-	cp $(DISK52) $(THUMBDRIVE_DEST)
-	cp $(DISK53) $(THUMBDRIVE_DEST)
+	$(CP) $(DISK35) $(THUMBDRIVE_DEST)
+	$(CP) $(DISK51) $(THUMBDRIVE_DEST)
+	$(CP) $(DISK52) $(THUMBDRIVE_DEST)
+	$(CP) $(DISK53) $(THUMBDRIVE_DEST)
 
 eject:
 	diskutil eject $(THUMBDRIVE)
 
 popmaker.system: $(SOURCES)
-	$(MERLIN) popmaker.s
+	$(ASM) popmaker.s
 
 rw18.6900: rw18.6900.s
-	$(MERLIN) rw18.6900.s
+	$(ASM) rw18.6900.s
 
 clean35:
 	-$(RM) $(DISK35)
