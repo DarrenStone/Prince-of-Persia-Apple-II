@@ -93,9 +93,9 @@ DOSInitSystem
 ********************************************
 
 ** ProDOS System Memory Bitmap, starting at offset 4
-**                  2000-4CFF                  6900-7900
+**                  2000-4AFF                  6900-7900
 **                  20,28,30,38,40,48,50,58,60,68,70,78
-systemBitmap    hex FF,FF,FF,FF,FF,F8,00,00,00,7F,FF,C0
+systemBitmap    hex FF,FF,FF,FF,FF,E0,00,00,00,7F,FF,C0
 systemBitmapLen    = *-systemBitmap
 systemBitmapOffset = 4
 

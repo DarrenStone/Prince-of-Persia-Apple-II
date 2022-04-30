@@ -135,17 +135,15 @@ These commands are available in the Debug version, after entering `P O P`.
 
 ### Boot-time Easter Eggs
 
-Press the key just as the game begins to boot.
+At boot time (while the drive is seeking to track zero) press one of the keys below, then hold down Open-Apple and Closed-Apple until the easter egg begins.
 
 | Key        | Command                               |
 |------------|---------------------------------------|
-| `Delete`   | Oscilloscope (IIGS Only).             |
-| `!`        | Message for Robert, then a low-res animation. |
-| `Return`   | 'Confusion' Triangle.  Hit `C` to change color. |
-| `@`        | Rotating Cube Animation.                        |
-| `^`        | Make your disk drive sound like a motorcycle engine (not recommended).  Move joystick to rev engine. |
-
-Note: POP-Maker does not yet include the boot-time easter eggs.
+| `Delete`   | Oscilloscope (IIGS Only).  Hit arrow keys to change timing.  Hit space bar to change from vertical and horizontal orientation.  Hold Command key to pause scope.  Runs best when GS is running in fast mode.|
+| `!`        | A secret message for Robert from 8/25/89, then a double-low-res animation. |
+| `Return`   | 'Confusion' Sierpinski Triangle.  Hit `C` to change color. |
+| `@`        | Rotating 3D-cube animation. |
+| `^`        | Make your disk drive sound like a motorcycle engine (not recommended).  Move joystick to rev engine/damage your drive. |
 
 ### Waving Jordan Mechner
 

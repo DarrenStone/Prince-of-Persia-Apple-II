@@ -1,20 +1,31 @@
-**
-** Memory Map
-**
-** $2000-4CFF Our Code
-** $4D00-4D40 Our ProDOS root path
-** $4D41-4Dff Free
-** $4E00-52FF Track 0 staging area (5 pages)
-** $5300-64FF RW18 Input/Output Buffer (18 pages)
-** $6500-68FF ProDOS working buffer (always 1 kB, 4 pages)
-** $6900-7900 RW18 Driver
-**
 
 DEBUG       = 0 ; enables debug prints.
 DEBUG_MENU  = 0 ; enables debug menu.
 
                 use macs
                 put equates
+
+**
+** Memory Map
+**
+** $2000-4AFF Our Code
+** $4B00-4B40 Our ProDOS root path
+** $4B41-4Bff Free
+** $4C00-52FF Track 0 staging area (7 pages)
+** $5300-64FF RW18 Input/Output Buffer (18 pages)
+** $6500-68FF ProDOS working buffer (always 1 kB, 4 pages)
+** $6900-7900 RW18 Driver
+**
+
+prodosBuffer    = $6500 ; $6500-68FF ProDOS working buffer (always 1 kB, 4 pages)
+stagingBuffer   = $4C00 ; $4C00-52FF Track 0 staging area (BOOT needs 7 pages, RW18 needs 5)
+rw18Buffer      = $5300 ; $5300-64FF RW18 Input/Output Buffer (18 pages)
+rootPath        = $4B00 ; 64 bytes, 4B00-4B40
+tmpPath         = $4B41
+
+rw18BufferSize    = 18
+stagingBufferSize = 7
+
 
 **************************************
 **
@@ -393,47 +404,43 @@ LoadBootTrack
     lda #>rw18Buffer     ; Clear the staging and output buffers
     ldy #rw18BufferSize
     jsr ClearBuffer
-    lda #>stagingBuffer
-    ldy #stagingBufferSize
-    jsr ClearBuffer
 
 *
 * Set ProDOS Read Buffer
 *
-    MSetWord dosReadReqLen;$1000            ; Buffer size = 16 pages ($1000)
+    lda #stagingBufferSize
+    sta dosReadReqLen+1
+    lda #0
+    sta dosReadReqLen
     MSetWord dosReadInBuffer;stagingBuffer
 
 *
 * Load the BOOT into staging buffer
 *
-:tryAgain
+:loadBoot
+    jsr :clearStagingBuffer
     MSetPathName f_boot
     jsr DOSLoadFile
     bcs :checkDisk
-
-*
-* Move it to output buffer.
-*
     MMovePages bootSource;bootDest;bootPageCount
-
-*
-* Clear the staging buffer again
-*
-    lda #>stagingBuffer
-    ldy #stagingBufferSize
-    jsr ClearBuffer
 
 *
 * Load RW18 to staging buffer
 *
+    jsr :clearStagingBuffer
     MSetPathName f_rw18
     jsr DOSLoadFile
     bcs :rts
+    MMovePages rw18Source;rw18Dest;rw18Count
 
 *
-* Move it to output buffer.
+* Load EGG.GS.SCOPE to staging buffer
 *
-    MMovePages rw18Source;rw18Dest;rw18Count
+    jsr :clearStagingBuffer
+    MSetPathName f_gsEgg
+    jsr DOSLoadFile
+    bcs :rts
+    MMovePages gsEggSource;gsEggDest;gsEggCount
 
 *
 * Write the output buffer to track 0
@@ -441,23 +448,34 @@ LoadBootTrack
     jsr WriteTrackZero
 :rts
     rts
-
+    
+* Check Disk.  If file not found then prompt for Disk 1; otherwise, fail.
 :checkDisk
     cmp #kDOSFileNotFound
     bne :fail
     jsr PromptForDisk1
     bcc :tryAgain
-
 :fail
     sec
     rts
+    
+:tryAgain
+    jmp :loadBoot
 
-bootSource      db 0,0,0,0,0, 0, 0, 0, 0, 1, 0
-bootDest        db 0,1,2,8,9,10,11,12,13,14,15
+:clearStagingBuffer
+    lda #>stagingBuffer
+    ldy #stagingBufferSize
+    jmp ClearBuffer
+
+bootSource      db 0, 1, 2, 3, 4, 5, 6
+bootDest        db 0,14,13,12,11,10, 9
 bootPageCount   = *-bootDest
 rw18Source      db 0,1,2,3,4
 rw18Dest        db 7,6,5,4,3
 rw18Count       = *-rw18Dest
+gsEggSource     db 0,1
+gsEggDest       db 2,1
+gsEggCount      = *-gsEggDest
 
 
 PromptForDisk1

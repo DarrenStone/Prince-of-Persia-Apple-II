@@ -30,15 +30,6 @@ CV              = $25   ; Cursot V-Pos
 BASL            = $28
 BASH            = $29
 
-prodosBuffer    = $6500 ; $6500-68FF ProDOS working buffer (always 1 kB, 4 pages)
-stagingBuffer   = $4E00 ; $4E00-52FF Track 0 staging area (5 pages for RW18)
-rw18Buffer      = $5300 ; $5300-64FF RW18 Input/Output Buffer (18 pages)
-rootPath        = $4D00 ; 64 bytes, 4d00-4d40
-tmpPath         = $4d41
-
-rw18BufferSize    = 18
-stagingBufferSize = 5
-
 **************************************
 **
 ** Zero Page 16-bit vars

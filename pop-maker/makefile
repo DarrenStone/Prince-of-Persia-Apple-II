@@ -128,6 +128,7 @@ $(DISK51):
 	$(CADIUS) createfolder $(DISK51) /$(VOL51)/lev
 	$(CADIUS) addfile $(DISK51) /$(VOL51)/obj/ obj/BOOT
 	$(CADIUS) addfile $(DISK51) /$(VOL51)/obj/ obj/RW18
+	$(CADIUS) addfile $(DISK51) /$(VOL51)/img/ img/EGG.GS.SCOPE
 	$(CADIUS) addfile $(DISK51) /$(VOL51)/obj/ obj/HIRES
 	$(CADIUS) addfile $(DISK51) /$(VOL51)/obj/ obj/MASTER.525
 	$(CADIUS) addfile $(DISK51) /$(VOL51)/obj/ obj/HRTABLES
