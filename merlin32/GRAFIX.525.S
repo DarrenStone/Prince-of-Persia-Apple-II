@@ -1,6 +1,7 @@
 * grafix
 CopyProtect = 0
 EditorDisk = 0
+NewVBlankIIc = 1
 org = $400
  tr on
  lst off
@@ -1950,6 +1951,23 @@ VBLANK
 * Wait for vertical blank (IIc)
 *
 *-------------------------------
+
+*-------------------------------
+        DO NewVBlankIIc ; - - - - Simplified IIc VBlank detection - - - - - - -
+*-------------------------------
+
+VBLANKIIc
+        bit $c070 ; Reset VBLFlag...
+:wait   bit $c019 ; ...then wait for it to go high again
+        bpl :wait
+        rts
+
+VBLI    rti       ; Interrupt handler never runs.
+
+*-------------------------------
+        ELSE      ;  - - - - - - - - - Original VBLANKIIc - - - - - - - - - - -
+*-------------------------------
+
 VBLANKIIc
  cli ;enable interrupts
 
@@ -1974,6 +1992,10 @@ VBLI
  sec
  ror vblflag ;set hibit
 :notvbl rti
+
+*-------------------------------
+        FIN ; - - - - - - - - End Original VBLANKIIc - - - - - - - - - - - - -
+*-------------------------------
 
 *-------------------------------
 *
