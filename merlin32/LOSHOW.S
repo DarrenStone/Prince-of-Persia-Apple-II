@@ -23,7 +23,10 @@ framebase = $1000
 * put on the show!
 *
 
-show bit $C010
+show sta $c05f
+ sta $c010
+
+ jsr initVBL
 
  lda #0
  sta isGS?
@@ -203,6 +206,44 @@ GSshowframe asl
  bne :loop
  beq ]waitvbl
 
+*------------------------------------------------- initVBL
+ 
+IICID           = $FBC0
+IOUEnable       = $C079
+IOUDisable      = $C078
+VBLEnable       = $C05B
+VBLReset        = $C070
+VBLFlag         = $C019
+
+*
+* Enable IIC VBL hardware if necessary
+*
+initVBL
+
+* Check for IIc
+
+        bit $C081       ; ROM IN
+        lda IICID       
+        bne :notIIC     ; IICID == 0 if we're on a IIc
+        
+* Enable VBLFlag
+
+        sei             ; Interrupts off
+        sta IOUEnable
+        sta VBLEnable
+        sta IOUDisable
+
+* Patch the original waitvbl                
+
+        ldx #$4C ;jmp   
+        ldy #IICwaitvbl
+        lda #>IICwaitvbl
+        stx waitvbl
+        sty waitvbl+1
+        sta waitvbl+2
+
+:notIIC rts        
+
 *------------------------------------------------- waitvbl
 *
 * Wait for a few vbl's to go by!
@@ -217,13 +258,28 @@ waitvbl ldx #6
  bne :0
  rts
 
+*------------------------------------------------- IICwaitvbl
+
+IICwaitvbl
+        ldx #6          ; Wait 6 frames (1/10th of a second)
+        
+:next   bit VBLReset    ; Reset the VBLFlag...
+:wait   bit VBLFlag     ; 
+        bpl :wait       ; ...then wait for it go high again.
+        
+        dex
+        bne :next       ; next frame
+        rts
+
+        
+         
 *------------------------------------------------- MAKEfade_tbls
 *
 * Make 16 lookup tables each containing 256 bytes
 * for the 16 levels of fade-in.
 *
 
-MAKEfade_tbls 
+MAKEfade_tbls
  dum 0
 :curtmp ds 2 ;ptr into current tmp_scale table
 :curfade ds 2 ;ptr into current page of fade table
@@ -330,7 +386,7 @@ MAKEfade_tbls
 * for 0-15 multiplied by 1/16...  16/16.
 *
 
-MAKEtmp_scale 
+MAKEtmp_scale
  dum 0
 :color ds 1
 :scale ds 1
