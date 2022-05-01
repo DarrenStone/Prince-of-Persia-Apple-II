@@ -4,22 +4,22 @@
 
 | File | Page | Sector | ProDOS Block | Staging Addr | Plain Game Addr | Copy Protect Game Addr | Copy Protect Notes |
 |---|---|---|---|---|---|---|---|
-| BOOT | 0 | 0 | 0.0 | $2000 | - | $2F00 | ? |
-| BOOT | 0 | 2 | 0.1 | $2100 | - | $1100 | GS Easter Egg |
-| BOOT | 0 | 4 | 1.0 | $2200 | - | $1000 | GS Easter Egg |
-| RW18 | 4 | 6 | 1.1 | $2300 | $3400 | $3400 |  |
-| RW18 | 3 | 8 | 2.0 | $2400 | $3300 | $3300 |  |
-| RW18 | 2 | 10 | 2.1 | $2500 | $3200 | $3200 |  |
-| RW18 | 1 | 12 | 3.0 | $2600 | $3100 | $3100 |  |
-| RW18 | 0 | 14 | 3.1 | $2700 | $3000 | $3000 |  |
-| BOOT | 0 | 1 | 4.0 | $2800 | - | $0E00 | ? |
-| BOOT | 0 | 3 | 4.1 | $2900 | - | $0D00 | ? |
-| BOOT | 0 | 5 | 5.0 | $2A00 | - | $0C00 | ? |
-| BOOT | 0 | 7 | 5.1 | $2B00 | - | - | ? |
-| BOOT | 0 | 9 | 6.0 | $2C00 | - | $0B00 | ? |
-| BOOT | 0 | 11 | 6.1 | $2D00 | - | $0A00 | ? |
-| BOOT | 1 | 13 | 7.0 | $2E00 | $0900 | $0900 |  |
-| BOOT | 0 | 15 | 7.1 | $2F00 | - | - |   |
+| BOOT | 0 | 0 | 0.0 | $2000 | $0800 | $0800 | BOOT 0 |
+| GS.EGG| 1 | 2 | 0.1 | $2100 | - | $1100 | GS Easter Egg |
+| GS.EGG| 0 | 4 | 1.0 | $2200 | - | $1000 | GS Easter Egg |
+| RW18 | 4 | 6 | 1.1 | $2300 | $3400 | $3400 | RW18 4 |
+| RW18 | 3 | 8 | 2.0 | $2400 | $3300 | $3300 | RW18 3 |
+| RW18 | 2 | 10 | 2.1 | $2500 | $3200 | $3200 | RW18 2 |
+| RW18 | 1 | 12 | 3.0 | $2600 | $3100 | $3100 | RW18 1 |
+| RW18 | 0 | 14 | 3.1 | $2700 | $3000 | $3000 | RW18 0 |
+|  |  | 1 | 4.0 | $2800 | - | $0E00 | BOOT 6 |
+|  |  | 3 | 4.1 | $2900 | - | $0D00 | BOOT 5 |
+| BOOT | 5 | 5 | 5.0 | $2A00 | $0D00 | $0C00 | BOOT 4 |
+| BOOT | 4 | 7 | 5.1 | $2B00 | $0C00 | - | Bit-slip Copy Protection |
+| BOOT | 3 | 9 | 6.0 | $2C00 | $0B00 | $0B00 | BOOT 3 |
+| BOOT | 2 | 11 | 6.1 | $2D00 | $0A00 | $0A00 | BOOT 2 |
+| BOOT | 1 | 13 | 7.0 | $2E00 | $0900 | $0900 | BOOT 1 |
+|  |  | 15 | 7.1 | $2F00 | x | $2F00 | Track 0 Decryption Key  |
 
 * Staging Addr: Location in POP-Maker's staging buffer.
 * Plain Game Addr: Address that non-copy protected boot loads the sector to.
@@ -103,12 +103,13 @@
 | IMG.CHTAB4.SHAD ||11||193|Mixed||
 |IMG.CHTAB4.VIZ|img|11|0600|C00||9600|
 | IMG.CHTAB4.VIZ ||12||945|Mixed||
-|VID.STUFF3.0C|img|12|0c00|600|Mixed||
-|VID.STUFF3.0C||13||1200|||
-|VID.STUFF3.0C||14||1200|||
-|VID.STUFF3.0C||15||1200|||
-|VID.STUFF3.0C||16||1200|||
-|VID.STUFF3.0C||17||1200|||
+|LOSHOW|obj|12|0c00|200|Mixed||
+|EGG.LOSHOW.DAT|img|12|1000|200|Mixed||
+|EGG.LOSHOW.DAT||13||1200|||
+|EGG.LOSHOW.DAT||14||1200|||
+|EGG.LOSHOW.DAT||15||1200|||
+|EGG.LOSHOW.DAT||16||1200|||
+|EGG.LOSHOW.DAT||17||1200|||
 |STAGE1.SIDEB.DATA|img|18|0000|1200|||
 |STAGE1.SIDEB.DATA||19||1200|||
 |STAGE1.SIDEB.DATA||20||1200|||

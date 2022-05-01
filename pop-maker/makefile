@@ -196,7 +196,8 @@ $(DISK53):
 	$(CADIUS) addfile $(DISK53) /$(VOL53)/img/ img/IMG.BGTAB2.DUN
 	$(CADIUS) addfile $(DISK53) /$(VOL53)/img/ img/IMG.CHTAB4.SHAD
 	$(CADIUS) addfile $(DISK53) /$(VOL53)/img/ img/IMG.CHTAB4.VIZ
-	$(CADIUS) addfile $(DISK53) /$(VOL53)/img/ img/VID.STUFF.0C
+	$(CADIUS) addfile $(DISK53) /$(VOL53)/obj/ obj/LOSHOW
+	$(CADIUS) addfile $(DISK53) /$(VOL53)/img/ img/EGG.LOSHOW.DAT
 	$(CADIUS) addfile $(DISK53) /$(VOL53)/img/ img/STAGE1.SIDEB
 	$(CADIUS) addfile $(DISK53) /$(VOL53)/img/ img/IMG.CHTAB6.B
 	$(CADIUS) addfile $(DISK53) /$(VOL53)/img/ img/PRINCESS.SIDEB

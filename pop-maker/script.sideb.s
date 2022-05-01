@@ -101,10 +101,14 @@ SideBScript
     DB dRead,$00
     DB dCloseFile     ; Mixed Track
 
-** - - - - - - - - - - - - - - - - - VID.STUFF.0C
+** - - - - - - - - - - - - - - - - - LOSHOW (Waving Easter Egg Code)
+    DB dLoadFile
+    DA f_loshow,$0C00 ; Mixed Track
+
+** - - - - - - - - - - - - - - - - - EGG.LOSHOW.DAT (Waving Easter Egg Video Data)
     DB dOpenFile
-    DA f_vidStuff
-    DB dRead,$0c
+    DA f_loshowData
+    DB dRead,$10
     DB dWriteTrack             ; 12
     DB dRead,$00
     DB dWriteTrack             ; 13
