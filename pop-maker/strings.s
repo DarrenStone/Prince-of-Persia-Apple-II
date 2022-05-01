@@ -385,7 +385,7 @@ sHitAnyKey      str "Hit any key to continue."
 sTitleBar       str "  POP MAKER v1.0  "
 sIntroMulti     str " --------------------------------------"
                 str "  Prince of Persia Disk Maker     v1.0"
-                str "  Darren Stone               2022-3-11"
+                str "  Darren Stone               2022-5-01"
                 str " --------------------------------------",kCR
                 str "  This utility allows you to  create a"
                 str "  real 18-sector Prince of Persia game"

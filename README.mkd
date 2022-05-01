@@ -1,5 +1,5 @@
 # 2022 Fork
-The goal of this fork is to provide an easy way to build 18-sector 5.25" game disks on real Apple II hardware.
+The goal of this fork is to provide an easy way to build 18-sector 5.25" game disks on real Apple II hardware.  This fork also fixes a couple of bugs in the original game.
 
 This fork includes the following additions:
 
@@ -11,11 +11,18 @@ This fork includes the following additions:
 
 The merlin32 directory contains a copy of the game code that will build on modern machines using the [Merlin 32 assembler from Brutal Deluxe](http://www.brutaldeluxe.fr/products/crossdevtools/merlin/). 
 
-The code includes these changes:
+The code in the merlin32 directory fixes two bugs in the original game:
+
+* [Improve keyboard controls on IIe and IIc hardware](https://github.com/DarrenStone/Prince-of-Persia-Apple-II/commit/965e19715de1a36014885bef0c77bfd7d7c00f71).  The original game has a bug that causes the keyboard controls to be unreliable on some IIe and IIc hardware (IIgs is not affected).  This change fixes that bug.
+* [Fixed the "Waving Jordan" video easter egg on IIc hardware](https://github.com/DarrenStone/Prince-of-Persia-Apple-II/commit/49446e004231bd0725156b3f9fd8a7594f511bde).  The original easter egg did not run on IIc hardware due to differences in VBlank detection between the IIc and IIe/IIgs hardware.
+
+
+The code also includes these changes:
 
 * [Patched code for Merlin 32](https://github.com/DarrenStone/Prince-of-Persia-Apple-II/commit/b2750d3bf0c55f0e30085bb39027b4cd7e10e305).  The original code exposes some bugs in the Merlin 32 assembler.  This change works around those bugs.
 * [Disable copy protection in 5.25" build](https://github.com/DarrenStone/Prince-of-Persia-Apple-II/commit/5d7208839bbddc081e6bb51b6c891a217f46d3aa).  This change is needed to allow the final Princess scene to run.
-* [Improve keyboard controls on IIe and IIc hardware](https://github.com/DarrenStone/Prince-of-Persia-Apple-II/commit/965e19715de1a36014885bef0c77bfd7d7c00f71).  The original game has a bug that causes the keyboard controls to be unreliable on some IIe and IIc hardware (IIGS is not affected).  This change fixes that bug.
+* [Added the boot-time easter eggs to the non-copy protected boot code](https://github.com/DarrenStone/Prince-of-Persia-Apple-II/commit/99f3cf118d4927276ee147c9524b0d8ea0cb179c).
+* [Simplified VBlank detection on IIc](https://github.com/DarrenStone/Prince-of-Persia-Apple-II/commit/cb513f093ecafa6c17183e82681d65ea3293daee).  The original code worked, but was wrong.
 
 
 
